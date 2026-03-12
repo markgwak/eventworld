@@ -653,6 +653,14 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModalDirect();
 });
 
+
+function goDetail(idx) {
+  const data = getFiltered();
+  const e = data[idx];
+  if (!e) return;
+  window.location.href = 'event.html?id=' + e.id;
+}
+
 let EVENTS = [];
 
 async function loadEvents() {
@@ -722,7 +730,7 @@ function render() {
     const urgent = isUrgent(e.period);
     const label = getDeadlineLabel(e.period);
     return `
-    <div class="event-card" style="animation-delay:${i*0.04}s;cursor:pointer" onclick="openModal(${i})">
+    <div class="event-card" style="animation-delay:${i*0.04}s;cursor:pointer" onclick="goDetail(${i})">
       ${e.thumbnail
         ? `<img class="card-thumb" src="${e.thumbnail}" alt="${e.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
            <div class="card-thumb-placeholder" style="display:none"><div class="placeholder-inner"><div class="placeholder-prize">🎁 ${e.prize}</div><div class="placeholder-host">${e.host}</div></div></div>`

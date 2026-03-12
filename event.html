@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이벤트 상세 — 이벤트월드</title>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f7f7f7;
+    --border: #e4e4e4;
+    --accent: #e8322a;
+    --accent2: #ff6b35;
+    --text: #111111;
+    --text2: #444444;
+    --text3: #999999;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    min-height: 100vh;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+
+  .header-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .back-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    text-decoration: none;
+    color: var(--text);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .logo-text {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+  }
+
+  .detail-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 16px;
+    display: block;
+    margin-bottom: 28px;
+  }
+
+  .detail-thumb-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #fff5f5, #fff0e6);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  .placeholder-prize {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    text-align: center;
+  }
+
+  .placeholder-host {
+    font-size: 14px;
+    color: var(--text3);
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  .detail-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+
+  .detail-meta {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 15px;
+    color: var(--text2);
+  }
+
+  .meta-label {
+    font-weight: 600;
+    color: var(--text3);
+    font-size: 13px;
+    width: 60px;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+
+  .meta-value { flex: 1; }
+  .meta-prize { color: #d46b08; font-weight: 700; }
+
+  .detail-desc-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .detail-desc {
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.8;
+    white-space: pre-line;
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 32px;
+  }
+
+  .participate-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    border: none;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    letter-spacing: -0.3px;
+  }
+
+  .participate-btn:hover { background: #c9251e; }
+
+  .loading {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text3);
+    font-size: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .detail-title { font-size: 20px; }
+    main { padding: 24px 16px 48px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="back-btn">←</a>
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="EVENT WORLD" style="height:28px; width:auto;">
+    </a>
+  </div>
+</header>
+
+<main id="main">
+  <div class="loading">불러오는 중...</div>
+</main>
+
+<script>
+async function loadDetail() {
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'));
+
+  if (!id) {
+    window.location.href = 'index.html';
+    return;
+  }
+
+  try {
+    const res = await fetch('events.json?t=' + Date.now());
+    const events = await res.json();
+    const e = events.find(ev => ev.id === id);
+
+    if (!e) {
+      window.location.href = 'index.html';
+      return;
+    }
+
+    document.title = `${e.title || e.host} — 이벤트월드`;
+
+    const thumbHtml = e.thumbnail
+      ? `<img class="detail-thumb" src="${e.thumbnail}" alt="${e.title}" onerror="this.outerHTML='<div class=detail-thumb-placeholder><div><div class=placeholder-prize>🎁 ${e.prize}</div><div class=placeholder-host>${e.host}</div></div></div>'">`
+      : `<div class="detail-thumb-placeholder"><div><div class="placeholder-prize">🎁 ${e.prize}</div><div class="placeholder-host">${e.host}</div></div></div>`;
+
+    const descHtml = e.description
+      ? `<div class="detail-desc-title">📋 이벤트 내용</div><div class="detail-desc">${e.description}</div>`
+      : '';
+
+    document.getElementById('main').innerHTML = `
+      ${thumbHtml}
+      <div class="detail-title">${e.title || e.host}</div>
+      <div class="detail-meta">
+        <div class="meta-row">
+          <span class="meta-label">🏢 주최사</span>
+          <span class="meta-value">${e.host}</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">🎁 경품</span>
+          <span class="meta-value meta-prize">${e.prize}</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">👥 당첨자</span>
+          <span class="meta-value">${e.winners}</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">📅 기간</span>
+          <span class="meta-value">${e.period}</span>
+        </div>
+      </div>
+      ${descHtml}
+      <a href="${e.link}" target="_blank" class="participate-btn">참여하기 →</a>
+    `;
+
+  } catch(err) {
+    document.getElementById('main').innerHTML = '<div class="loading">불러오기 실패</div>';
+  }
+}
+
+loadDetail();
+</script>
+</body>
+</html>
