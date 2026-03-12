@@ -386,9 +386,7 @@
     .card-grid { grid-template-columns: 1fr; }
     .list-meta { font-size: 12px; gap: 6px; }
     .list-btn { padding: 8px 12px; font-size: 12px; }
-  }
 
-  
 </style>
 </head>
 <body>
@@ -484,24 +482,7 @@
 
 <script>
 
-  document.getElementById('modalTitle').textContent = e.title || e.host;
-  document.getElementById('modalHost').textContent = e.host;
-  document.getElementById('modalPrize').textContent = e.prize;
-  document.getElementById('modalWinners').textContent = e.winners;
-  document.getElementById('modalPeriod').textContent = e.period;
-  document.getElementById('modalDesc').textContent = e.description || '설명글이 없어요.';
-  document.getElementById('modalBtn').href = e.link;
-
-  document.getElementById('modalOverlay').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-}
-
-
-
-
-function goDetail(idx) {
+  function goDetail(idx) {
   const data = getFiltered();
   const e = data[idx];
   if (!e) return;
