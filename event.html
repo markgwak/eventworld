@@ -7,13 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #ffffff;
-    --surface: #f7f7f7;
+    --bg: #f5f5f5;
+    --white: #ffffff;
     --border: #e4e4e4;
     --accent: #e8322a;
-    --accent2: #ff6b35;
     --text: #111111;
-    --text2: #444444;
+    --text2: #555555;
     --text3: #999999;
   }
 
@@ -30,24 +29,23 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(16px);
+    background: var(--white);
     border-bottom: 1px solid var(--border);
-    padding: 0 24px;
+    padding: 0 20px;
   }
 
   .header-inner {
-    max-width: 720px;
+    max-width: 780px;
     margin: 0 auto;
-    height: 60px;
+    height: 56px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
 
   .back-btn {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border: 1px solid var(--border);
     background: white;
     border-radius: 8px;
@@ -55,158 +53,132 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
     color: var(--text);
     flex-shrink: 0;
-    transition: all 0.2s;
   }
 
-  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-  }
-
-  .logo-text {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.5px;
-  }
-
-  .logo-text span { color: var(--accent); }
+  .header-logo img { height: 26px; width: auto; display: block; }
 
   main {
-    max-width: 720px;
+    max-width: 780px;
     margin: 0 auto;
-    padding: 32px 24px 60px;
+    padding: 20px 16px 60px;
   }
 
-  .detail-thumb {
+  .thumb-wrap {
     width: 100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
+    background: var(--white);
     border-radius: 16px;
-    display: block;
-    margin-bottom: 28px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
   }
 
-  .detail-thumb-placeholder {
+  .thumb-img { width: 100%; display: block; object-fit: cover; }
+
+  .thumb-placeholder {
     width: 100%;
-    aspect-ratio: 16/9;
-    background: linear-gradient(135deg, #fff5f5, #fff0e6);
-    border-radius: 16px;
+    aspect-ratio: 4/3;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 28px;
+    gap: 12px;
+    background: #fafafa;
   }
 
-  .placeholder-prize {
+  .thumb-placeholder img { width: 120px; opacity: 0.4; }
+  .thumb-placeholder p { font-size: 14px; color: var(--text3); }
+
+  .info-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .info-title {
     font-size: 20px;
-    font-weight: 700;
-    color: var(--accent);
-    text-align: center;
-  }
-
-  .placeholder-host {
-    font-size: 14px;
-    color: var(--text3);
-    margin-top: 8px;
-    text-align: center;
-  }
-
-  .detail-title {
-    font-size: 24px;
     font-weight: 800;
     color: var(--text);
-    line-height: 1.4;
-    margin-bottom: 20px;
+    line-height: 1.45;
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
     letter-spacing: -0.5px;
   }
 
-  .detail-meta {
-    background: var(--surface);
-    border-radius: 14px;
-    padding: 20px;
+  .info-row {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    padding: 13px 20px;
+    border-bottom: 1px solid #f0f0f0;
     gap: 12px;
-    margin-bottom: 28px;
   }
 
-  .meta-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 15px;
-    color: var(--text2);
-  }
+  .info-row:last-child { border-bottom: none; }
 
-  .meta-label {
+  .info-label {
+    font-size: 13px;
     font-weight: 600;
     color: var(--text3);
-    font-size: 13px;
-    width: 60px;
+    width: 52px;
     flex-shrink: 0;
-    padding-top: 1px;
   }
 
-  .meta-value { flex: 1; }
-  .meta-prize { color: #d46b08; font-weight: 700; }
+  .info-value { font-size: 15px; color: var(--text); flex: 1; line-height: 1.5; }
+  .info-value.prize { color: var(--accent); font-weight: 700; }
 
-  .detail-desc-title {
-    font-size: 16px;
+  .desc-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .desc-header {
+    padding: 16px 20px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    background: #fafafa;
   }
 
-  .detail-desc {
+  .desc-body {
+    padding: 20px;
     font-size: 15px;
     color: var(--text2);
-    line-height: 1.8;
+    line-height: 1.9;
     white-space: pre-line;
-    background: var(--surface);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 32px;
+    word-break: keep-all;
   }
 
   .participate-btn {
     display: block;
     width: 100%;
-    padding: 16px;
+    padding: 17px;
     background: var(--accent);
     border: none;
     border-radius: 14px;
     font-size: 17px;
-    font-weight: 700;
+    font-weight: 800;
     color: white;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.2s;
     font-family: inherit;
     letter-spacing: -0.3px;
   }
 
-  .participate-btn:hover { background: #c9251e; }
-
-  .loading {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--text3);
-    font-size: 16px;
-  }
+  .loading { text-align: center; padding: 80px 20px; color: var(--text3); font-size: 16px; }
 
   @media (max-width: 600px) {
-    .detail-title { font-size: 20px; }
-    main { padding: 24px 16px 48px; }
+    .info-title { font-size: 18px; }
+    .desc-body { font-size: 14px; }
   }
 </style>
 </head>
@@ -215,8 +187,8 @@
 <header>
   <div class="header-inner">
     <a href="index.html" class="back-btn">←</a>
-    <a href="index.html" class="logo">
-      <img src="logo.png" alt="EVENT WORLD" style="height:28px; width:auto;">
+    <a href="index.html" class="header-logo">
+      <img src="logo.png" alt="EVENT WORLD">
     </a>
   </div>
 </header>
@@ -230,55 +202,39 @@ async function loadDetail() {
   const params = new URLSearchParams(window.location.search);
   const id = parseInt(params.get('id'));
 
-  if (!id) {
-    window.location.href = 'index.html';
-    return;
-  }
+  if (!id) { window.location.href = 'index.html'; return; }
 
   try {
     const res = await fetch('events.json?t=' + Date.now());
     const events = await res.json();
     const e = events.find(ev => ev.id === id);
 
-    if (!e) {
-      window.location.href = 'index.html';
-      return;
+    if (!e) { window.location.href = 'index.html'; return; }
+
+    document.title = (e.title || e.host) + ' — 이벤트월드';
+
+    let thumbHtml = '';
+    if (e.thumbnail) {
+      thumbHtml = '<div class="thumb-wrap"><img class="thumb-img" src="' + e.thumbnail + '" alt="' + (e.title||'') + '" onerror="this.parentElement.innerHTML=\'<div class=thumb-placeholder><img src=logo.png alt=logo><p>등록된 포스터가 없어요</p></div>\'"></div>';
+    } else {
+      thumbHtml = '<div class="thumb-wrap"><div class="thumb-placeholder"><img src="logo.png" alt="logo"><p>등록된 포스터가 없어요</p></div></div>';
     }
 
-    document.title = `${e.title || e.host} — 이벤트월드`;
-
-    const thumbHtml = e.thumbnail
-      ? `<img class="detail-thumb" src="${e.thumbnail}" alt="${e.title}" onerror="this.outerHTML='<div class=detail-thumb-placeholder><div><div class=placeholder-prize>🎁 ${e.prize}</div><div class=placeholder-host>${e.host}</div></div></div>'">`
-      : `<div class="detail-thumb-placeholder"><div><div class="placeholder-prize">🎁 ${e.prize}</div><div class="placeholder-host">${e.host}</div></div></div>`;
-
     const descHtml = e.description
-      ? `<div class="detail-desc-title">📋 이벤트 내용</div><div class="detail-desc">${e.description}</div>`
+      ? '<div class="desc-card"><div class="desc-header">📋 이벤트 내용</div><div class="desc-body">' + e.description + '</div></div>'
       : '';
 
-    document.getElementById('main').innerHTML = `
-      ${thumbHtml}
-      <div class="detail-title">${e.title || e.host}</div>
-      <div class="detail-meta">
-        <div class="meta-row">
-          <span class="meta-label">🏢 주최사</span>
-          <span class="meta-value">${e.host}</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">🎁 경품</span>
-          <span class="meta-value meta-prize">${e.prize}</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">👥 당첨자</span>
-          <span class="meta-value">${e.winners}</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">📅 기간</span>
-          <span class="meta-value">${e.period}</span>
-        </div>
-      </div>
-      ${descHtml}
-      <a href="${e.link}" target="_blank" class="participate-btn">참여하기 →</a>
-    `;
+    document.getElementById('main').innerHTML =
+      thumbHtml +
+      '<div class="info-card">' +
+        '<div class="info-title">' + (e.title || e.host) + '</div>' +
+        '<div class="info-row"><span class="info-label">주최사</span><span class="info-value">' + e.host + '</span></div>' +
+        '<div class="info-row"><span class="info-label">경품</span><span class="info-value prize">' + e.prize + '</span></div>' +
+        '<div class="info-row"><span class="info-label">당첨자</span><span class="info-value">' + e.winners + '</span></div>' +
+        '<div class="info-row"><span class="info-label">기간</span><span class="info-value">' + e.period + '</span></div>' +
+      '</div>' +
+      descHtml +
+      '<a href="' + e.link + '" target="_blank" class="participate-btn">참여하기 →</a>';
 
   } catch(err) {
     document.getElementById('main').innerHTML = '<div class="loading">불러오기 실패</div>';
