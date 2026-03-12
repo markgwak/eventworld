@@ -387,6 +387,131 @@
     .list-meta { font-size: 12px; gap: 6px; }
     .list-btn { padding: 8px 12px; font-size: 12px; }
   }
+
+  /* ── 모달 ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: white;
+    border-radius: 20px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalUp 0.25s ease;
+  }
+
+  @keyframes modalUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+    display: block;
+  }
+
+  .modal-thumb-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #fff5f5, #fff0e6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .modal-thumb-placeholder .placeholder-inner { text-align: center; }
+  .modal-thumb-placeholder .placeholder-prize { font-size: 18px; font-weight: 700; color: var(--accent); }
+  .modal-thumb-placeholder .placeholder-host { font-size: 13px; color: var(--text3); margin-top: 6px; }
+
+  .modal-body { padding: 24px; }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 16px;
+  }
+
+  .modal-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: var(--surface);
+    border-radius: 12px;
+  }
+
+  .modal-meta .meta-row { font-size: 14px; }
+
+  .modal-desc {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.7;
+    white-space: pre-line;
+    margin-bottom: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 16px;
+    background: var(--surface);
+    border-radius: 12px;
+  }
+
+  .modal-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .modal-btn:hover { background: #c9251e; }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+
+  .modal-image-wrap { position: relative; }
 </style>
 </head>
 <body>
@@ -464,8 +589,70 @@
     <p>해당 조건의 이벤트가 없어요</p>
   </div>
 </main>
+<!-- 모달 -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-image-wrap">
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <div id="modalThumb"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-meta">
+        <div class="meta-row"><span class="meta-icon">🏢</span> <span id="modalHost"></span></div>
+        <div class="meta-row"><span class="meta-icon">🎁</span> <span class="meta-prize" id="modalPrize"></span></div>
+        <div class="meta-row"><span class="meta-icon">👥</span> 당첨자 <span id="modalWinners"></span></div>
+        <div class="meta-row"><span class="meta-icon">📅</span> <span id="modalPeriod"></span></div>
+      </div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <a href="#" target="_blank" class="modal-btn" id="modalBtn">참여하기 →</a>
+    </div>
+  </div>
+</div>
+
 
 <script>
+
+function openModal(idx) {
+  const data = getFiltered();
+  const e = data[idx];
+  if (!e) return;
+
+  // 썸네일
+  const thumbEl = document.getElementById('modalThumb');
+  if (e.thumbnail) {
+    thumbEl.innerHTML = `<img class="modal-thumb" src="${e.thumbnail}" alt="${e.title}" onerror="this.outerHTML='<div class=modal-thumb-placeholder><div class=placeholder-inner><div class=placeholder-prize>🎁 ${e.prize}</div><div class=placeholder-host>${e.host}</div></div></div>'">`;
+  } else {
+    thumbEl.innerHTML = `<div class="modal-thumb-placeholder"><div class="placeholder-inner"><div class="placeholder-prize">🎁 ${e.prize}</div><div class="placeholder-host">${e.host}</div></div></div>`;
+  }
+
+  document.getElementById('modalTitle').textContent = e.title || e.host;
+  document.getElementById('modalHost').textContent = e.host;
+  document.getElementById('modalPrize').textContent = e.prize;
+  document.getElementById('modalWinners').textContent = e.winners;
+  document.getElementById('modalPeriod').textContent = e.period;
+  document.getElementById('modalDesc').textContent = e.description || '설명글이 없어요.';
+  document.getElementById('modalBtn').href = e.link;
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(event) {
+  if (event.target === document.getElementById('modalOverlay')) {
+    closeModalDirect();
+  }
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModalDirect();
+});
+
 let EVENTS = [];
 
 async function loadEvents() {
@@ -535,7 +722,7 @@ function render() {
     const urgent = isUrgent(e.period);
     const label = getDeadlineLabel(e.period);
     return `
-    <div class="event-card" style="animation-delay:${i*0.04}s">
+    <div class="event-card" style="animation-delay:${i*0.04}s;cursor:pointer" onclick="openModal(${i})">
       ${e.thumbnail
         ? `<img class="card-thumb" src="${e.thumbnail}" alt="${e.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
            <div class="card-thumb-placeholder" style="display:none"><div class="placeholder-inner"><div class="placeholder-prize">🎁 ${e.prize}</div><div class="placeholder-host">${e.host}</div></div></div>`
